@@ -90,7 +90,6 @@ class UI(QMainWindow):
         except Exception:
             show_error('Неправильный формат')
             return
-
         self.do_interpolate(np.array(x_list), np.array(y_list))
 
     def select_func(self):
@@ -151,6 +150,14 @@ class UI(QMainWindow):
             self.table_args.setItem(0, i, QTableWidgetItem(f'{round(func(self.input_field_arg.value()), 2)}'))
 
     def do_interpolate(self, x_list, y_list, added_funcs=[]):
+
+        if (np.unique(x_list, return_counts=True)[1] > 1).any():
+            show_error('Повторяющиеся x!!!')
+            return
+
+        self.widget_input_text.setVisible(False)
+        self.widget_input_func.setVisible(False)
+
         # Получение индексов для сортировки
         sorted_indices = np.argsort(x_list)
 
@@ -230,7 +237,7 @@ class UI(QMainWindow):
 
         table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-        self.widget_input_func.setVisible(False)
+        # self.widget_input_func.setVisible(False)
         self.widget_res.setVisible(True)
 
         save_to_file(self, text)

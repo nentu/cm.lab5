@@ -14,7 +14,7 @@ class GaussInterpolator(UniformNutonInterpolator):
     def __init__(self, X: np.array, Y: np.array, a: float = None):
         super().__init__(X, Y)
         if a is None:
-            a = X[self.n // 2 + 1]
+            a = np.median(X)
 
         roll_n = self.n // 2 + 1
         self.X = np.roll(self.X, roll_n)
